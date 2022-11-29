@@ -1,0 +1,12 @@
+torch --extra-index-url https://download.pytorch.org/whl/cu117      # windows cuda 11.7
+# torch --extra-index-url https://download.pytorch.org/whl/cu116    # windows cuda 11.6 / linux cuda 11.6
+# torch                                                             # ubuntu cuda 11.7
+numpy
+graphviz
+ipykernel
+pandas
+matplotlib
+seaborn
+xgboost
+imblearn
+pickle
