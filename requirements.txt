@@ -10,3 +10,4 @@ seaborn
 xgboost
 imblearn
 pickle
+skorch
