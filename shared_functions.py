@@ -1372,12 +1372,13 @@ def prepare_generators(training_set,valid_set,batch_size=64):
 def evaluate_model(model,generator,criterion):
     model.eval()
     batch_losses = []
-    for x_batch, y_batch in generator:
-        # Forward pass
-        y_pred = model(x_batch)
-        # Compute Loss
-        loss = criterion(y_pred.squeeze(), y_batch)
-        batch_losses.append(loss.item())
+    with torch.no_grad: 
+        for x_batch, y_batch in generator:
+            # Forward pass
+            y_pred = model(x_batch)
+            # Compute Loss
+            loss = criterion(y_pred.squeeze(), y_batch)
+            batch_losses.append(loss.item())
     mean_loss = np.mean(batch_losses)    
     return mean_loss
 

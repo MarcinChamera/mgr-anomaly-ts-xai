@@ -5,7 +5,7 @@ import wandb
 def edit_hyperparameter(name, value):
     api = wandb.Api()
     # add 'change-required' tag to the run we want to change
-    runs = api.runs("chamera/mgr-anomaly-ts-xai", filters={'tags': 'change-required'})
+    runs = api.runs("mgr-anomaly-tsxai/mgr-anomaly-tsxai-project", filters={'tags': 'change-required'})
     if len(runs) == 0:
         print('no runs found')
     else:
@@ -19,7 +19,7 @@ def edit_hyperparameter(name, value):
 def delete_hyperparameter(name):
     api = wandb.Api()
     # add 'change-required' tag to the run we want to change
-    runs = api.runs("chamera/mgr-anomaly-ts-xai", filters={'tags': 'change-required'})
+    runs = api.runs("mgr-anomaly-tsxai/mgr-anomaly-tsxai-project", filters={'tags': 'change-required'})
     if len(runs) == 0:
         print('no runs found')
     else:
@@ -33,7 +33,7 @@ def delete_hyperparameter(name):
 def add_hyperparameter(name, value):
     api = wandb.Api()
     # add 'change-required' tag to the run we want to change
-    runs = api.runs("chamera/mgr-anomaly-ts-xai", filters={'tags': 'change-required'})
+    runs = api.runs("mgr-anomaly-tsxai/mgr-anomaly-tsxai-project", filters={'tags': 'change-required'})
     if len(runs) == 0:
         print('no runs found')
     else:
