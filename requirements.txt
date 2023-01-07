@@ -11,3 +11,5 @@ xgboost
 imblearn
 pickle
 skorch
+wandb
+tsai
