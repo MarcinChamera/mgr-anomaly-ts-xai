@@ -13,3 +13,4 @@ pickle
 skorch
 wandb
 tsai
+sktime
