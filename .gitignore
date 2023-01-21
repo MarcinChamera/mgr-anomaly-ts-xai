@@ -1,3 +1,5 @@
 cuda_testing.ipynb
 __pycache__
 wandb
+tsai/tsai_sweeps-first_steps/tsai-train_&_evaluate.ipynb
+tsai/tsai_sweeps-first_steps/tsai_vs_pytorch_preprocessing.ipynb
