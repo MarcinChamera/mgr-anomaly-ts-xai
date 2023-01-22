@@ -761,3 +761,38 @@ class FraudConvNetWithDropout(torch.nn.Module):
             output = self.sigmoid(output)
             
             return output
+
+# returns X and y for either train or valid part ready to be put inside tsai.all.combine_split_data
+# returns torch.Size([number_of_samples, number_of_features, sequence_length]), torch.Size([number_of_samples]) 
+
+def prepare_sequenced_X_y(df, seq_len, input_features, output_feature):
+    x = torch.FloatTensor(df[input_features].values) # shape => [66928, 15] for train
+    y = torch.FloatTensor(df[output_feature].values)
+    # storing the x features in features and adding the "padding" transaction at the end
+    features = torch.vstack([x, torch.zeros(x[0,:].shape)]) # shape => [66929, 15] for train
+    df_ids_dates = pd.DataFrame({'CUSTOMER_ID':df['CUSTOMER_ID'].values,
+            'TX_DATETIME':df['TX_DATETIME'].values})
+    df_ids_dates["tmp_index"]  = np.arange(len(df_ids_dates))
+    df_groupby_customer_id = df_ids_dates.groupby("CUSTOMER_ID")
+    sequence_indices = pd.DataFrame(
+        {
+            "tx_{}".format(n): df_groupby_customer_id["tmp_index"].shift(seq_len - n - 1)
+            for n in range(seq_len)
+        }
+    )
+
+    #replaces -1 (padding) with the index of the padding transaction (last index of features)
+    sequences_ids = sequence_indices.fillna(len(features) - 1).values.astype(int) # shape => [66928, 5] for train
+
+    # sequence_ids example for train:
+    #
+    #  array([[66928, 66928, 66928, 66928,     0],
+    #         [66928, 66928, 66928, 66928,     1],
+    #         [66928, 66928, 66928, 66928,     2],
+    #         ...,
+    #         [66928, 18988, 23403, 66777, 66925],
+    #         [56083, 56468, 63286, 63338, 66926],
+    #         [49051, 52037, 58500, 60393, 66927]])
+
+    x_sequenced = [features[sequences_ids[index], :].transpose(0, 1) for index in range(x.shape[0])]
+    return torch.stack(x_sequenced), y # x shape => [66928, 15, 5] for train
