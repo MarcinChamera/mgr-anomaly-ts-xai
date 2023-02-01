@@ -768,8 +768,17 @@ class FraudConvNetWithDropout(torch.nn.Module):
 def prepare_sequenced_X_y(df, seq_len, input_features, output_feature):
     x = torch.FloatTensor(df[input_features].values) # shape => [66928, 15] for train
     y = torch.FloatTensor(df[output_feature].values)
-    # storing the x features in features and adding the "padding" transaction at the end
+    # storing the x features in features and adding the "padding with 0" transaction at the end
     features = torch.vstack([x, torch.zeros(x[0,:].shape)]) # shape => [66929, 15] for train
+    # features example for train:
+    #
+    # tensor([[-0.1323, -0.6306,  2.1808,  ..., -0.1231, -0.9719, -0.1436],
+    #     [ 0.1510, -0.6306,  2.1808,  ..., -0.1231,  1.1965, -0.1436],
+    #     [-0.9605, -0.6306,  2.1808,  ..., -0.1231,  0.8351, -0.1436],
+    #     ...,
+    #     [-0.8644, -0.6306, -0.4586,  ..., -0.1231,  0.9556, -0.1436],
+    #     [-0.4383, -0.6306, -0.4586,  ..., -0.1231, -0.6105, -0.1436],
+    #     [ 0.0000,  0.0000,  0.0000,  ...,  0.0000,  0.0000,  0.0000]]) <----- "padding" transaction
     df_ids_dates = pd.DataFrame({'CUSTOMER_ID':df['CUSTOMER_ID'].values,
             'TX_DATETIME':df['TX_DATETIME'].values})
     df_ids_dates["tmp_index"]  = np.arange(len(df_ids_dates))
