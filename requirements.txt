@@ -9,8 +9,14 @@ matplotlib
 seaborn
 xgboost
 imblearn
-pickle
 skorch
 wandb
 tsai
 sktime
+prettytable
+fastai
+sklearn
+tqdm
+shap
+tslearn
+joblib
