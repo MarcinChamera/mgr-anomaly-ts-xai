@@ -3,3 +3,11 @@ __pycache__
 wandb
 tsai/tsai_sweeps-first_steps/tsai-train_&_evaluate.ipynb
 tsai/tsai_sweeps-first_steps/tsai_vs_pytorch_preprocessing.ipynb
+*.pth
+*.npy
+*.csv
+XAI/logs/
+*.sav
+XAI/generator_output/
+XAI/artifacts/
+*.pt
